@@ -14,8 +14,8 @@ function [odes] = rayleigh_learn(t,x,d,q,e,F,F_t)
 % F_t = discrete time of F
 %
 % System is 3 odes expressed in Cartesian coordinates
-% X = hopf oscillator
-% Y = hopf oscillator
+% X = oscillator
+% Y = oscillator
 % W = hebbian learning rule
 
 % %% Figure 10 from Righetti, Buchli, and Ijspeert, (2006)

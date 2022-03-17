@@ -13,8 +13,8 @@ function [odes] = vanderpol_learn(t,x,a,e, F,F_t)
 % F_t = discrete time of F
 %
 % System is 3 odes expressed in Cartesian coordinates
-% X = hopf oscillator
-% Y = hopf oscillator
+% X = oscillator
+% Y = oscillator
 % W = hebbian learning rule for oscillator freq
 
 % % Example:
