@@ -61,35 +61,25 @@ ylabel('X')
 % legend('F', 'Oscillator');
 
 %% 3-D Phase Space
-figure;
+
 plot3(y(:,1),y(:,2), y(:,3),'Color','#808080', 'LineWidth', 0.5)
 hold on;
-plot3(y(1,1),y(1,2),y(1,3),'.-', 'MarkerSize', 20, 'Color', '#7E2F8E')         % initial conditions
+plot3(y(1,1),y(1,2),y(1,2),'.-', 'MarkerSize', 20, 'Color', '#7E2F8E')         % initial conditions
 plot3(y(end,1),y(end,2),y(end,3),'.-','MarkerSize', 20)                          % final position
 hold off;
 
  myWriter = VideoWriter('RosslerPhaseSpace');
  myWriter.FrameRate = 20;
- figure;
  plot3(y(:,1),y(:,2), y(:,3),'Color','#808080', 'LineWidth', 0.5)
- hold on;
- plot3(y(1,1),y(1,2),y(1,3),'-', 'MarkerSize', 20, 'Color', '#7E2F8E')      
- xlim([-200 200]);
- ylim([-200 200]);
- zlim([0 2500]);
-for k = 1:10:length(F_t)
+for k = 1:length(F_t)
     x_k = y(k,1);
     y_k = y(k,2);
     z_k = y(k,3);
-    %hold on
+    hold on
     plot3(x_k,y_k,z_k,'.-', 'MarkerSize', 20, 'Color', '#7E2F8E') 
-    %plot3(x_k,y_k,z_k,'-','Color','#7E2F8E', 'LineWidth', 0.5) 
-    drawnow;
     movieVector = getframe;
     open(myWriter);
     writeVideo(myWriter, movieVector);    %It generates a .avi video and saves it in your drive.
 end
-  close(myWriter);
-  disp('done');
-  
+    close(myWriter);
       
