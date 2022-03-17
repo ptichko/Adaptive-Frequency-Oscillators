@@ -29,7 +29,7 @@ set(fig,'defaultAxesColorOrder',[[0.4940 0.1840 0.5560];	[0 0 0]]);
 subplot(3,1,1)
 plot(t,y(:,4), 'black');
 xlim([t0 tend])
-ylim([18 32]);
+ylim([10 32]);
 ylabel('W (Angular Frequency)')
 title('Adaptive-Frequency Rossler Strange Attractor')
 
@@ -40,10 +40,10 @@ plot(t,F, '--black', 'LineWidth', 1.5);
 ylim([-2 2]);
 ylabel('F')
 yyaxis left;
-plot(t,y(:,1), 'LineWidth', 2, 'Color', '#7E2F8E');
+plot(t,y(:,2), 'LineWidth', 2, 'Color', '#7E2F8E');
 ylim([-2 2]);
 xlim([0 2]);
-ylabel('X')
+ylabel('Y')
 hold off;
 
 hold on;
@@ -53,11 +53,11 @@ plot(t,F, '--black', 'LineWidth', 1.5);
 ylim([-2 2]);
 ylabel('F')
 yyaxis left;
-plot(t,y(:,1), 'LineWidth', 2, 'Color', '#7E2F8E');
+plot(t,y(:,2), 'LineWidth', 2, 'Color', '#7E2F8E');
 ylim([-200 200]);
 xlim([498 500]);
 xlabel('Time')
-ylabel('X')
+ylabel('Y')
 % legend('F', 'Oscillator');
 
 
