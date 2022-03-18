@@ -112,6 +112,7 @@ plot(t,F, '--black', 'LineWidth', 1.5);
 hold on;
 plot(t,y(:,2), 'LineWidth', 2, 'Color', '#7E2F8E');
 xlim([110 160]);
+yline(20);
 title('Input Signal and Oscillator')
 xlabel('Time')
 ylabel('Amplitude')

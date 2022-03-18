@@ -3,7 +3,7 @@
 t0 = 0;                % start time
 tend = 500;            % stop time
 
-% periodic forcing (cosine input)
+% input signal
 Fs = 120;               % sample rate of periodic forcing
 F_t = linspace(t0, tend, tend*Fs); %dt for periodic forcing
 F = sin(20*F_t);        
@@ -60,36 +60,56 @@ xlabel('Time')
 ylabel('X')
 % legend('F', 'Oscillator');
 
-%% 3-D Phase Space
-figure;
-plot3(y(:,1),y(:,2), y(:,3),'Color','#808080', 'LineWidth', 0.5)
-hold on;
-plot3(y(1,1),y(1,2),y(1,3),'.-', 'MarkerSize', 20, 'Color', '#7E2F8E')         % initial conditions
-plot3(y(end,1),y(end,2),y(end,3),'.-','MarkerSize', 20)                          % final position
-hold off;
+  
+%% Draw Animation
+fig2 = figure;
+fig2.Position = [823   264   417   714];
+subplot(3,1,1)
+plot3(0,0,0,'-', 'MarkerSize', 20, 'Color', '#7E2F8E')          % hack to initialize 3d for animation
+phasesp_1a = animatedline('Color','#808080', 'LineWidth', 0.25);
+phasesp_1b = animatedline('Marker','.', 'MarkerSize', 20, 'Color', '#7E2F8E');
+xlim([-200 200]);
+ylim([-200 200]);
+zlim([0 2500]);
+xlabel('x');
+ylabel('y');
+zlabel('z');
+title('Phase Space');
+subplot(3,1,2)
+phasesp_2a = animatedline('Color','#808080', 'LineWidth', 0.25);
+phasesp_2b = animatedline('Marker','.', 'MarkerSize', 20, 'Color', '#7E2F8E');
+ylim([15 32.5]);
+yline(20, 'k--');
+ylabel('w');
+title('Frequency Adaptation');
+subplot(3,1,3)
+phasesp_3a = animatedline('Color','#808080', 'LineWidth', 0.25);
+phasesp_3b = animatedline('Marker','.', 'MarkerSize', 20, 'Color', '#7E2F8E');
+ylabel('y');
+xlabel('Time');
+title('Oscillation (y component)');
 
- myWriter = VideoWriter('RosslerPhaseSpace');
- myWriter.FrameRate = 20;
- figure;
- plot3(y(:,1),y(:,2), y(:,3),'Color','#808080', 'LineWidth', 0.5)
- hold on;
- plot3(y(1,1),y(1,2),y(1,3),'-', 'MarkerSize', 20, 'Color', '#7E2F8E')      
- xlim([-200 200]);
- ylim([-200 200]);
- zlim([0 2500]);
-for k = 1:10:length(F_t)
+gif('Rossler_PhaseP.gif')
+
+for k = 1:10:8000
     x_k = y(k,1);
     y_k = y(k,2);
     z_k = y(k,3);
-    %hold on
-    plot3(x_k,y_k,z_k,'.-', 'MarkerSize', 20, 'Color', '#7E2F8E') 
-    %plot3(x_k,y_k,z_k,'-','Color','#7E2F8E', 'LineWidth', 0.5) 
-    drawnow;
-    movieVector = getframe;
-    open(myWriter);
-    writeVideo(myWriter, movieVector);    %It generates a .avi video and saves it in your drive.
+    w_k = y(k,4);
+    subplot(3,1,1)
+    addpoints(phasesp_1a, x_k,y_k, z_k);
+    addpoints(phasesp_1b, x_k,y_k, z_k);
+    sgtitle(sprintf('Steps %0.2f',k));
+    subplot(3,1,2)
+    addpoints(phasesp_2a, k, w_k);
+    addpoints(phasesp_2b, k, w_k);
+    subplot(3,1,3)
+    addpoints(phasesp_3a, k, y_k);
+    addpoints(phasesp_3b, k, y_k);
+    drawnow
+    gif
+    clearpoints(phasesp_1b)
+    clearpoints(phasesp_2b)
+    clearpoints(phasesp_3b);
 end
-  close(myWriter);
-  disp('done');
-  
-      
+
