@@ -148,7 +148,7 @@ title('Phase Space');
 subplot(3,1,2)
 phasesp_2a = animatedline('Color','#808080', 'LineWidth', 0.25);
 phasesp_2b = animatedline('Marker','.', 'MarkerSize', 20, 'Color', '#7E2F8E');
-xlim([gifStart gifStop]);
+xlim([t(gifStart) t(gifStop)]);
 ylim([2 10]);
 yline(3, 'k--');
 ylabel('w');
@@ -156,7 +156,7 @@ title('Frequency Adaptation');
 subplot(3,1,3)
 phasesp_3a = animatedline('Color','#7E2F8E', 'LineWidth',1);
 phasesp_3b = animatedline('LineStyle', '--','Color','#808080', 'LineWidth', 1);
-xlim([gifStart gifStop]);
+xlim([t(gifStart) t(gifStop)]);
 ylim([-1.2 1.2]);
 ylabel('y');
 xlabel('Time');
@@ -175,11 +175,11 @@ for k = gifStart:5:gifStop
     addpoints(phasesp_1b, x_k,y_k);
     sgtitle(sprintf('Steps %0.2f',k));
     subplot(3,1,2)
-    addpoints(phasesp_2a, k, w_k);
-    addpoints(phasesp_2b, k, w_k);
+    addpoints(phasesp_2a, t(k), w_k);
+    addpoints(phasesp_2b, t(k), w_k);
     subplot(3,1,3)
-    addpoints(phasesp_3a, k, y_k);
-    addpoints(phasesp_3b, k, F_k);
+    addpoints(phasesp_3a, t(k), y_k);
+    addpoints(phasesp_3b, t(k), F_k);
     drawnow
     gif
     clearpoints(phasesp_1b)
@@ -188,7 +188,7 @@ end
 
 
 
-em% Multiple rhythmic frequencies
+%% Multiple rhythmic frequencies
 % start/stop simulation
 t0 = 0;
 tend = 50; 
