@@ -62,7 +62,7 @@ legend(num2str(w0))
 hold off;
 
 
-%% One Rythmic Frequency 
+%% One Rhythmic Frequency 
 % start/stop simulation
 t0 = 0;
 tend = 250; % 3000, fig 2.
@@ -112,12 +112,12 @@ plot(t,F, '--black', 'LineWidth', 1.5);
 hold on;
 plot(t,y(:,2), 'LineWidth', 2, 'Color', '#7E2F8E');
 xlim([110 160]);
-yline(20);
 title('Input Signal and Oscillator')
 xlabel('Time')
 ylabel('Amplitude')
 legend('F', 'Oscillator')
 hold off;
+
 
 % phase portrait
 figure;
@@ -129,8 +129,66 @@ title(['Phase Portrait: e = ' num2str(e(i))]);
 xlabel('x-dot');
 ylabel('y-dot');
 hold off
+%%
+% tspan for gif
+[~, gifStart] = min(abs(120-t));
+[~, gifStop] = min(abs(145-t));
 
-%% Multiple rhythmic frequencies
+% gif
+fig2 = figure;
+fig2.Position = [823   264   417   714];
+subplot(3,1,1)
+phasesp_1a = animatedline('Color','#808080', 'LineWidth', 0.25);
+phasesp_1b = animatedline('Marker','.', 'MarkerSize', 20, 'Color', '#7E2F8E');
+xlim([-1.5 1.5]);
+ylim([-1.5 1.5]);
+xlabel('x');
+ylabel('y');
+title('Phase Space');
+subplot(3,1,2)
+phasesp_2a = animatedline('Color','#808080', 'LineWidth', 0.25);
+phasesp_2b = animatedline('Marker','.', 'MarkerSize', 20, 'Color', '#7E2F8E');
+xlim([gifStart gifStop]);
+ylim([2 10]);
+yline(3, 'k--');
+ylabel('w');
+title('Frequency Adaptation');
+subplot(3,1,3)
+phasesp_3a = animatedline('Color','#7E2F8E', 'LineWidth',1);
+phasesp_3b = animatedline('LineStyle', '--','Color','#808080', 'LineWidth', 1);
+xlim([gifStart gifStop]);
+ylim([-1.2 1.2]);
+ylabel('y');
+xlabel('Time');
+title('Oscillation (y-var) and Input Signal (dashed)');
+
+gif('Hopf_PhaseP.gif')
+
+
+for k = gifStart:5:gifStop
+    x_k = y(k,1);
+    y_k = y(k,2);
+    w_k = y(k,3);
+    F_k = F(k);
+    subplot(3,1,1)
+    addpoints(phasesp_1a, x_k,y_k);
+    addpoints(phasesp_1b, x_k,y_k);
+    sgtitle(sprintf('Steps %0.2f',k));
+    subplot(3,1,2)
+    addpoints(phasesp_2a, k, w_k);
+    addpoints(phasesp_2b, k, w_k);
+    subplot(3,1,3)
+    addpoints(phasesp_3a, k, y_k);
+    addpoints(phasesp_3b, k, F_k);
+    drawnow
+    gif
+    clearpoints(phasesp_1b)
+    clearpoints(phasesp_2b)
+end
+
+
+
+em% Multiple rhythmic frequencies
 % start/stop simulation
 t0 = 0;
 tend = 50; 
@@ -146,7 +204,7 @@ plot(F)
 
 % model parameters
 m = 1;                  % osc amplitude
-e = 1;                % learning rate
+e = 1;                  % learning rate
 %tspan = [t0 tend];     % full timespan
 tspan = [F_t];          % time point as cos
 w0 = [1;4;5;10];         % initial osc freqs
